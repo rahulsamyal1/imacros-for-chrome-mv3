@@ -85,7 +85,7 @@ var context = {
             badge.setIcon(win_id, "skin/play.png");
             break;
         case "idle":
-            badge.setIcon(win_id, "skin/logo19.png");
+            badge.setIcon(win_id, "skin/icon19.png");
             if (Storage.getBool("show-updated-badge")) {
                 badge.setText(win_id, "New");
             } else {
@@ -132,7 +132,7 @@ var context = {
             badge.setIcon(tab.windowId, "skin/play.png");
             break;
         case "idle":
-            badge.setIcon(tab.windowId, "skin/logo19.png");
+            badge.setIcon(tab.windowId, "skin/icon19.png");
             if (Storage.getBool("show-updated-badge")) {
                 badge.setText(tab.windowId, "New");
             } else {

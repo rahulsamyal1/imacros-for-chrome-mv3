@@ -73,7 +73,7 @@ chrome.scripting; this guard makes repeated injection a no-op.
         bar.className = "bar";
 
         var logo = document.createElement("img");
-        logo.src = chrome.runtime.getURL("skin/logo24.png");
+        logo.src = chrome.runtime.getURL("skin/icon24.png");
         logo.alt = "";
         var title = document.createElement("span");
         title.className = "t";

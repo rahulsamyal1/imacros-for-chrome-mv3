@@ -573,7 +573,7 @@ CSRecorder.prototype.highlightElement = function(element) {
         hl_img.style.width = "24px";
         hl_img.style.height = "24px";
         hl_img.style.backgroundImage =
-            "url('"+chrome.runtime.getURL("skin/logo24.png")+"')";
+            "url('"+chrome.runtime.getURL("skin/icon24.png")+"')";
         hl_div.appendChild(hl_img);
         doc.body.appendChild(hl_div);
     } else {

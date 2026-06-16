@@ -401,7 +401,7 @@ function showInfo(args) {
             type: "basic",
             title: (args.errorCode == 1 ? "iMacros" : "iMacros Error"),
             message: String(args.message || ""),
-            iconUrl: "skin/logo48.png"
+            iconUrl: "skin/icon48.png"
         };
         chrome.notifications.create(String(win_id), opt, function() {
             void chrome.runtime.lastError;
