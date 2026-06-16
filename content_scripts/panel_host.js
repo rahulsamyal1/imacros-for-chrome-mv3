@@ -12,7 +12,7 @@ chrome.scripting; this guard makes repeated injection a no-op.
     window.__imacrosPanelHost = true;
 
     var HOST_ID = "imacros-panel-host";
-    var DEFAULT_W = 340, DEFAULT_H = 600;
+    var DEFAULT_W = 360, DEFAULT_H = 640;
     var winId = null;
 
     function isOpen() { return !!document.getElementById(HOST_ID); }

@@ -74,15 +74,40 @@ var context = {
         return c ? c.panelWindow : null;
     },
 
+    // MV3 hardening: keep the service worker alive while a macro is actively
+    // playing / recording / paused, so long waits (page loads, native-host
+    // round-trips, an open password/extract dialog, WAIT, IMAGESEARCH retries)
+    // don't let Chrome kill the worker mid-run. A chrome.* call < every 30s
+    // resets the idle timer. (An abrupt hard-kill can still interrupt a run.)
+    __active: {},
+    __keepAliveTimer: null,
+    keepAlive: function(win_id, on) {
+        if (on) context.__active[win_id] = true;
+        else delete context.__active[win_id];
+        var any = false;
+        for (var k in context.__active) { any = true; break; }
+        if (any && !context.__keepAliveTimer) {
+            context.__keepAliveTimer = setInterval(function() {
+                try { chrome.runtime.getPlatformInfo(function() {
+                    void chrome.runtime.lastError; }); } catch (e) {}
+            }, 20000);
+        } else if (!any && context.__keepAliveTimer) {
+            clearInterval(context.__keepAliveTimer);
+            context.__keepAliveTimer = null;
+        }
+    },
+
     updateState: function(win_id, state) {
         var c = context.ensure(win_id);
         if (!c) return;
         switch (state) {
         case "playing": case "recording":
             badge.setIcon(win_id, "skin/stop.png");
+            context.keepAlive(win_id, true);
             break;
         case "paused":
             badge.setIcon(win_id, "skin/play.png");
+            context.keepAlive(win_id, true);
             break;
         case "idle":
             badge.setIcon(win_id, "skin/icon19.png");
@@ -91,6 +116,7 @@ var context = {
             } else {
                 badge.clearText(win_id);
             }
+            context.keepAlive(win_id, false);
             break;
         }
         c.state = state;

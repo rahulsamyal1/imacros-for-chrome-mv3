@@ -1,18 +1,28 @@
+<!DOCTYPE html>
 <html>
-  <head>
-    <title>iMacros Editor</title>
-    <link rel="stylesheet" type="text/css"
-          href="imacro.css" />
-    <script language="javascript" type="text/javascript"
-            src="edit_area/edit_area_loader.js"></script>
-    <script language="javascript" type="text/javascript"
-            src="imacro.js"></script>
-
-  </head>
-  <body>
-    <form method="post">
-    <textarea id="textarea" style="width:100%;height:95%" name="content" ></textarea>
-    </form>
-    <div id="bypass" style="display:none"></div>
-  </body>
+<head>
+  <meta charset="utf-8">
+  <title>iMacros Editor</title>
+  <style>
+    html, body { height: 100%; margin: 0; background: #14110d; }
+    #textarea {
+      width: 100%; height: 100%; box-sizing: border-box;
+      border: 0; outline: none; resize: none; display: block;
+      background: #14110d; color: #f3ead9;
+      font-family: ui-monospace, "Cascadia Code", Consolas, "Courier New", monospace;
+      font-size: 13.5px; line-height: 1.65; padding: 14px;
+      tab-size: 4; -moz-tab-size: 4; caret-color: #ffc25c;
+    }
+    #textarea::selection { background: rgba(232,163,61,.35); }
+    #textarea::-moz-selection { background: rgba(232,163,61,.35); }
+    #textarea::placeholder { color: #80735f; }
+  </style>
+  <script src="imacro.js"></script>
+</head>
+<body>
+  <textarea id="textarea" name="content" spellcheck="false" autocomplete="off"
+            autocorrect="off" autocapitalize="off" wrap="off"
+            placeholder="' iMacros macro source"></textarea>
+  <div id="bypass" style="display:none"></div>
+</body>
 </html>
