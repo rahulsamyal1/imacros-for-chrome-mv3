@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chrome Extension Feature Test Page</title>
+  <style>
+    :root {
+      --bg: #0b1020;
+      --panel: #11182d;
+      --panel2: #151f38;
+      --text: #eef4ff;
+      --muted: #95a3bd;
+      --accent: #20c7ff;
+      --accent2: #f7b733;
+      --danger: #ff5c7a;
+      --success: #40d98f;
+      --border: rgba(255,255,255,.12);
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(32,199,255,.22), transparent 28%),
+        radial-gradient(circle at 85% 5%, rgba(247,183,51,.18), transparent 30%),
+        linear-gradient(135deg, #070b16 0%, #10172b 45%, #07101f 100%);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(8, 13, 27, .78);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      max-width: 1200px;
+      margin: auto;
+      padding: 14px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      letter-spacing: -.03em;
+      font-size: 20px;
+    }
+    .logo {
+      width: 38px;
+      height: 38px;
+      border-radius: 13px;
+      display: grid;
+      place-items: center;
+      color: #07101f;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 30px rgba(32,199,255,.22);
+    }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-left: 14px;
+      font-size: 14px;
+    }
+    nav a:hover { color: var(--text); }
+    .hero {
+      max-width: 1200px;
+      margin: auto;
+      padding: 56px 22px 28px;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 28px;
+      align-items: center;
+    }
+    .badge {
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+      color: var(--accent);
+      border: 1px solid rgba(32,199,255,.35);
+      background: rgba(32,199,255,.08);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    h1 {
+      font-size: clamp(34px, 5vw, 68px);
+      line-height: .96;
+      letter-spacing: -.06em;
+      margin: 18px 0;
+    }
+    .lead {
+      color: var(--muted);
+      max-width: 640px;
+      font-size: 18px;
+      line-height: 1.6;
+    }
+    .hero-card {
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+    }
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .stat {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid var(--border);
+    }
+    .stat strong { display: block; font-size: 24px; }
+    .stat span { color: var(--muted); font-size: 13px; }
+    main {
+      max-width: 1200px;
+      margin: auto;
+      padding: 20px 22px 80px;
+    }
+    section {
+      margin-top: 24px;
+      padding: 24px;
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: rgba(17, 24, 45, .78);
+      box-shadow: 0 12px 45px rgba(0,0,0,.18);
+    }
+    h2 {
+      margin: 0 0 8px;
+      letter-spacing: -.03em;
+    }
+    .section-note {
+      color: var(--muted);
+      margin: 0 0 22px;
+      line-height: 1.5;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .card {
+      background: rgba(255,255,255,.055);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 18px;
+    }
+    label {
+      display: block;
+      margin: 12px 0 6px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    input, textarea, select {
+      width: 100%;
+      padding: 12px 13px;
+      border-radius: 13px;
+      border: 1px solid rgba(255,255,255,.15);
+      background: rgba(4,8,18,.72);
+      color: var(--text);
+      outline: none;
+      font: inherit;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(32,199,255,.75);
+      box-shadow: 0 0 0 4px rgba(32,199,255,.13);
+    }
+    textarea { min-height: 110px; resize: vertical; }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    button, .button-link {
+      border: 0;
+      cursor: pointer;
+      border-radius: 14px;
+      padding: 11px 15px;
+      background: linear-gradient(135deg, var(--accent), #2478ff);
+      color: white;
+      font-weight: 800;
+      text-decoration: none;
+      font: inherit;
+      box-shadow: 0 10px 26px rgba(32,199,255,.18);
+    }
+    button.secondary {
+      background: rgba(255,255,255,.08);
+      border: 1px solid var(--border);
+      color: var(--text);
+      box-shadow: none;
+    }
+    button.gold {
+      background: linear-gradient(135deg, #ffcc58, #f49720);
+      color: #101010;
+    }
+    button.danger { background: linear-gradient(135deg, #ff5c7a, #c91f4d); }
+    .output {
+      margin-top: 14px;
+      min-height: 42px;
+      padding: 12px 14px;
+      background: rgba(4,8,18,.72);
+      border: 1px dashed rgba(255,255,255,.2);
+      border-radius: 14px;
+      color: #dce8ff;
+      white-space: pre-wrap;
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 12px;
+      margin-bottom: 14px;
+    }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+    .progress {
+      height: 12px;
+      background: rgba(255,255,255,.09);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      width: 30%;
+      background: linear-gradient(90deg, var(--accent), var(--success));
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      overflow: hidden;
+      border-radius: 18px;
+      border: 1px solid var(--border);
+    }
+    th, td {
+      padding: 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--border);
+    }
+    th { color: var(--muted); background: rgba(255,255,255,.05); }
+    tr:hover td { background: rgba(32,199,255,.06); }
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,.65);
+      display: none;
+      place-items: center;
+      z-index: 100;
+      padding: 24px;
+    }
+    .modal {
+      width: min(520px, 100%);
+      background: #11182d;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+    }
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      z-index: 120;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: #11182d;
+      border: 1px solid var(--border);
+      display: none;
+      box-shadow: var(--shadow);
+    }
+    .long-content p {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+    .fake-ad {
+      padding: 22px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, rgba(247,183,51,.15), rgba(32,199,255,.1));
+      border: 1px solid rgba(247,183,51,.24);
+    }
+    iframe {
+      width: 100%;
+      min-height: 210px;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: white;
+    }
+    .hidden-zone {
+      opacity: .35;
+      border-style: dashed;
+    }
+    @media (max-width: 900px) {
+      .hero { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand"><div class="logo">XT</div> Extension Test Page</div>
+      <nav>
+        <a href="#forms">Forms</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#dynamic">Dynamic</a>
+        <a href="#tables">Tables</a>
+        <a href="#edge">Edge Cases</a>
+      </nav>
+    </div>
+  </header>
+
+  <div class="hero">
+    <div>
+      <span class="badge">🧪 Local test page for Chrome extensions</span>
+      <h1>Test capture, click, fill, record, playback and UI overlay.</h1>
+      <p class="lead">Use this page to test your in-page panel, content script, macro recorder, selector detection, form filling, contact form, scrolling, modals, iframes and dynamic DOM changes.</p>
+      <div class="btn-row">
+        <a class="button-link" href="#forms">Start testing</a>
+        <button class="secondary" onclick="window.scrollTo({top: document.body.scrollHeight, behavior:'smooth'})">Test scroll bottom</button>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h2>Test Status</h2>
+      <p class="section-note">Click buttons below and check if your extension can detect page actions.</p>
+      <div class="status-grid">
+        <div class="stat"><strong id="clickCount">0</strong><span>Clicks detected by page</span></div>
+        <div class="stat"><strong id="inputCount">0</strong><span>Input changes</span></div>
+        <div class="stat"><strong id="domCount">0</strong><span>Dynamic elements added</span></div>
+        <div class="stat"><strong id="scrollY">0</strong><span>Scroll Y position</span></div>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <section id="forms">
+      <h2>1. Form Fill Test</h2>
+      <p class="section-note">Good for testing autofill, selector targeting, macro recording, text extraction and submit handling.</p>
+      <div class="grid">
+        <div class="card">
+          <label for="fullName">Full name</label>
+          <input id="fullName" name="fullName" placeholder="Rahul Nayyar" autocomplete="name" />
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" placeholder="rahul@example.com" autocomplete="email" />
+          <label for="phone">Phone</label>
+          <input id="phone" name="phone" type="tel" placeholder="+61 400 000 000" />
+        </div>
+        <div class="card">
+          <label for="service">Service type</label>
+          <select id="service" name="service">
+            <option value="">Select service</option>
+            <option>Chrome Extension Development</option>
+            <option>Macro Automation</option>
+            <option>Shopify Help</option>
+            <option>Website Redesign</option>
+          </select>
+          <label for="budget">Budget</label>
+          <input id="budget" name="budget" type="number" min="10" max="5000" placeholder="250" />
+          <label><input type="checkbox" id="urgent" style="width:auto;margin-right:8px"> Urgent task</label>
+        </div>
+        <div class="card">
+          <label for="message">Message / Offer box</label>
+          <textarea id="message" name="message" placeholder="Type or let extension fill this field..."></textarea>
+          <div class="btn-row">
+            <button id="submitForm" onclick="submitDemoForm()">Submit form</button>
+            <button class="secondary" onclick="fillSampleData()">Fill sample data</button>
+            <button class="danger" onclick="clearForm()">Clear</button>
+          </div>
+        </div>
+      </div>
+      <div id="formOutput" class="output">Form output will appear here.</div>
+    </section>
+
+    <section id="buttons">
+      <h2>2. Button, Link and Click Test</h2>
+      <p class="section-note">Use these to test click recording, playback, event listeners and disabled/hidden element handling.</p>
+      <div class="btn-row">
+        <button id="normalButton" onclick="logAction('Normal button clicked')">Normal Button</button>
+        <button id="doubleButton" ondblclick="logAction('Double click detected')">Double Click Me</button>
+        <button id="rightButton" oncontextmenu="event.preventDefault(); logAction('Right click detected')">Right Click Me</button>
+        <button class="gold" id="delayedButton" onclick="delayedResult()">Delayed Result</button>
+        <button disabled>Disabled Button</button>
+        <a href="#tables" class="button-link">Anchor Link</a>
+      </div>
+      <div class="output" id="buttonOutput">Button output will appear here.</div>
+    </section>
+
+    <section id="dynamic">
+      <h2>3. Dynamic DOM Test</h2>
+      <p class="section-note">Good for testing extensions that need to wait for elements to appear after AJAX or page changes.</p>
+      <div class="tabs">
+        <button class="secondary" onclick="showTab('tab1')">Play</button>
+        <button class="secondary" onclick="showTab('tab2')">Record</button>
+        <button class="secondary" onclick="showTab('tab3')">Manage</button>
+      </div>
+      <div id="tab1" class="tab-panel active">
+        <h3>Play Macro</h3>
+        <p class="section-note">Test Play, Stop and Loop buttons.</p>
+        <div class="btn-row">
+          <button onclick="runProgress()">Play Macro</button>
+          <button class="danger" onclick="stopProgress()">Stop</button>
+          <button class="gold" onclick="loopProgress()">Play Loop x3</button>
+        </div>
+        <div class="progress"><span id="progressBar"></span></div>
+      </div>
+      <div id="tab2" class="tab-panel">
+        <h3>Record Macro</h3>
+        <p class="section-note">Pretend record area. Your extension can test interactions here.</p>
+        <textarea id="recordLog" placeholder="Recorded steps will appear here..."></textarea>
+      </div>
+      <div id="tab3" class="tab-panel">
+        <h3>Manage Macros</h3>
+        <div id="macroList" class="output">#Current.iim&#10;Demo-Chrome&#10;Login-Test&#10;Form-Fill-Test</div>
+      </div>
+      <div class="btn-row">
+        <button onclick="addDynamicElement()">Add Dynamic Button</button>
+        <button class="secondary" onclick="addDynamicInput()">Add Dynamic Input</button>
+      </div>
+      <div id="dynamicArea" class="output">Dynamic elements will appear here.</div>
+    </section>
+
+    <section id="tables">
+      <h2>4. Table and Text Capture Test</h2>
+      <p class="section-note">Use this to test OCR/text capture, scraping, row clicks and structured extraction.</p>
+      <table>
+        <thead>
+          <tr><th>Task</th><th>Client</th><th>Budget</th><th>Status</th><th>Action</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Build Chrome extension</td><td>George M.</td><td>$250</td><td>Open</td><td><button class="secondary" onclick="logAction('Selected George task')">Select</button></td></tr>
+          <tr><td>Shopify product upload</td><td>Suzanne W.</td><td>$30</td><td>Open</td><td><button class="secondary" onclick="logAction('Selected Suzanne task')">Select</button></td></tr>
+          <tr><td>Redesign admin dashboard</td><td>Dennis</td><td>$500</td><td>In progress</td><td><button class="secondary" onclick="logAction('Selected Dennis task')">Select</button></td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <section id="contact">
+      <h2>5. Contact Form Test</h2>
+      <p class="section-note">Use this to test your extension's support/contact form behavior without sending real emails.</p>
+      <div class="grid">
+        <div class="card">
+          <label for="supportName">Name</label>
+          <input id="supportName" placeholder="Test User" />
+          <label for="supportEmail">Email</label>
+          <input id="supportEmail" type="email" placeholder="test@example.com" />
+          <label for="supportMsg">Support message</label>
+          <textarea id="supportMsg" placeholder="I need help with..."></textarea>
+          <div class="btn-row">
+            <button onclick="fakeContactSubmit()">Send Test Message</button>
+            <button class="secondary" onclick="location.href='mailto:support@example.com?subject=Extension Support Test'">Mailto Test</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3>Captured Info</h3>
+          <div id="contactOutput" class="output">No message sent yet.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="edge">
+      <h2>6. Edge Case Tests</h2>
+      <p class="section-note">Use these to check overlays, z-index, iframe limits, long pages, hidden fields and modal behavior.</p>
+      <div class="grid">
+        <div class="card">
+          <h3>Modal Test</h3>
+          <button onclick="openModal()">Open Modal</button>
+          <p class="section-note">Check if your extension panel stays above or below this modal as expected.</p>
+        </div>
+        <div class="card hidden-zone">
+          <h3>Hidden/Low Visibility Area</h3>
+          <input type="hidden" id="hiddenToken" value="secret-test-token-123" />
+          <button style="display:none" id="hiddenButton">Hidden Button</button>
+          <p>Hidden input exists in this card.</p>
+        </div>
+        <div class="card">
+          <h3>Iframe Test</h3>
+          <iframe srcdoc="<html><body style='font-family:Arial;padding:20px'><h2>Iframe Form</h2><input id='iframeInput' placeholder='Inside iframe'><button id='iframeBtn' onclick=&quot;document.body.insertAdjacentHTML('beforeend','<p>Iframe button clicked</p>')&quot;>Iframe Button</button></body></html>"></iframe>
+        </div>
+      </div>
+      <div class="fake-ad" style="margin-top:16px">
+        <strong>Overlay Collision Test Box</strong>
+        <p class="section-note">Place your in-page extension panel over this area and confirm it is draggable, collapsible and not broken by page CSS.</p>
+      </div>
+    </section>
+
+    <section class="long-content">
+      <h2>7. Long Scroll Test</h2>
+      <p>Scroll recording test paragraph 1. This page is intentionally long to test sticky headers, injected panels and viewport positioning.</p>
+      <p>Scroll recording test paragraph 2. Try recording a macro that scrolls, clicks a button, fills a form and opens a modal.</p>
+      <p>Scroll recording test paragraph 3. Your extension should not create double scrollbars or break the page layout.</p>
+      <p>Scroll recording test paragraph 4. If using Shadow DOM, the page CSS should not affect extension UI.</p>
+      <p>Scroll recording test paragraph 5. Test bottom-of-page button below.</p>
+      <button onclick="showToast('Bottom button clicked successfully')">Bottom Button</button>
+    </section>
+
+    <section id="imacros">
+      <h2>8. Test with iMacros (record &amp; replay)</h2>
+      <p class="section-note">Click the iMacros toolbar icon to open the in-page panel.
+        <b>Record:</b> hit Record, interact with the sections above, then Stop.
+        <b>Replay:</b> Edit a macro, paste a snippet below, then Play — each one targets the real elements on this page.
+        Opened via <b>file://</b>? Enable “Allow access to file URLs” on the extension's details page.
+        The iframe test relies on <code>match_about_blank</code> (enabled in this build).</p>
+      <div id="imacrosMacros" class="grid"></div>
+      <h3 style="margin-top:26px">Command reference</h3>
+      <div style="overflow:auto">
+        <table id="imacrosRef"><thead><tr><th>Command</th><th>Syntax</th><th>Local test</th></tr></thead><tbody></tbody></table>
+      </div>
+    </section>
+  </main>
+
+  <script>
+  (function(){
+    var M=[
+     {t:"Fill name", f:"INPUT:TEXT", code:`TAG POS=1 TYPE=INPUT:TEXT ATTR=ID:fullName CONTENT=Rahul<SP>Nayyar`},
+     {t:"Fill email", f:"INPUT:EMAIL", code:`TAG POS=1 TYPE=INPUT:EMAIL ATTR=ID:email CONTENT=rahul@example.com`},
+     {t:"Fill phone", f:"INPUT:TEL", code:`TAG POS=1 TYPE=INPUT:TEL ATTR=ID:phone CONTENT=0400000000`},
+     {t:"Select service", f:"SELECT", code:`TAG POS=1 TYPE=SELECT ATTR=ID:service CONTENT=$Macro<SP>Automation`},
+     {t:"Budget", f:"INPUT:NUMBER", code:`TAG POS=1 TYPE=INPUT:NUMBER ATTR=ID:budget CONTENT=250`},
+     {t:"Urgent checkbox", f:"INPUT:CHECKBOX", code:`TAG POS=1 TYPE=INPUT:CHECKBOX ATTR=ID:urgent CONTENT=YES`},
+     {t:"Message", f:"TEXTAREA", code:`TAG POS=1 TYPE=TEXTAREA ATTR=ID:message CONTENT=Built<SP>and<SP>tested<SP>with<SP>iMacros`},
+     {t:"Submit the form", f:"TAG click", code:`TAG POS=1 TYPE=BUTTON ATTR=ID:submitForm`},
+     {t:"Click a button", f:"TAG click", code:`TAG POS=1 TYPE=BUTTON ATTR=ID:normalButton`},
+     {t:"Click a link", f:"TAG click", code:`TAG POS=1 TYPE=A ATTR=TXT:Anchor<SP>Link`},
+     {t:"Extract a table", f:"EXTRACT", code:`SET !EXTRACT NULL
+TAG POS=1 TYPE=TABLE ATTR=* EXTRACT=TXT
+PROMPT Table:<SP>{{!EXTRACT}}`},
+     {t:"Extract one cell", f:"EXTRACT TXT", code:`SET !EXTRACT NULL
+TAG POS=1 TYPE=TD ATTR=TXT:George<SP>M. EXTRACT=TXT
+PROMPT Cell:<SP>{{!EXTRACT}}`},
+     {t:"Open modal + fill", f:"click + fill", code:`TAG POS=1 TYPE=BUTTON ATTR=TXT:Open<SP>Modal
+TAG POS=1 TYPE=INPUT:TEXT ATTR=ID:modalInput CONTENT=Typed<SP>by<SP>iMacros
+TAG POS=1 TYPE=BUTTON ATTR=TXT:Confirm`},
+     {t:"Work inside the iframe", f:"FRAME", code:`FRAME F=1
+TAG POS=1 TYPE=INPUT:TEXT ATTR=ID:iframeInput CONTENT=InsideFrame
+TAG POS=1 TYPE=BUTTON ATTR=ID:iframeBtn
+FRAME F=0`},
+     {t:"Wait for dynamic element", f:"WAIT / !TIMEOUT_STEP", code:`SET !TIMEOUT_STEP 10
+TAG POS=1 TYPE=BUTTON ATTR=TXT:Add<SP>Dynamic<SP>Button
+TAG POS=1 TYPE=BUTTON ATTR=TXT:Dynamic<SP>Button<SP>#1`},
+     {t:"Search text", f:"SEARCH", code:`SEARCH SOURCE=TXT:In<SP>progress`},
+     {t:"Search regex + extract", f:"SEARCH", code:`SEARCH SOURCE=REGEXP:([0-9][0-9]+) EXTRACT=$1
+PROMPT Found:<SP>{{!EXTRACT}}`},
+     {t:"Variables + ADD", f:"SET / ADD", code:`SET !VAR1 10
+ADD !VAR1 5
+ADD !VAR1 100
+PROMPT VAR1<SP>=<SP>{{!VAR1}}`},
+     {t:"EVAL (JavaScript)", f:"EVAL", code:`SET !VAR1 EVAL("2*21;")
+PROMPT EVAL<SP>result:<SP>{{!VAR1}}`},
+     {t:"New tab + navigate", f:"TAB / URL", code:`TAB OPEN
+TAB T=2
+URL GOTO=https://www.imacros.net/
+WAIT SECONDS=2
+TAB CLOSE`},
+     {t:"Scroll to bottom button", f:"TAG (auto-scroll)", code:`TAG POS=1 TYPE=BUTTON ATTR=TXT:Bottom<SP>Button`}
+    ];
+    var box=document.getElementById("imacrosMacros");
+    M.forEach(function(m){
+      var card=document.createElement("div"); card.className="card";
+      var head=document.createElement("div");
+      head.style.cssText="display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:8px";
+      var h=document.createElement("strong"); h.textContent=m.t;
+      var cp=document.createElement("button"); cp.className="gold"; cp.textContent="Copy"; cp.style.padding="6px 12px";
+      head.appendChild(h); head.appendChild(cp);
+      var pre=document.createElement("pre"); pre.className="output";
+      pre.style.cssText="font-family:ui-monospace,Consolas,monospace;font-size:12.5px;margin-top:0";
+      pre.textContent=m.code;
+      var f=document.createElement("div"); f.className="section-note"; f.style.margin="8px 0 0"; f.textContent=m.f;
+      card.appendChild(head); card.appendChild(pre); card.appendChild(f);
+      cp.addEventListener("click", function(){
+        var text=m.code;
+        function ok(){ cp.textContent="Copied"; setTimeout(function(){ cp.textContent="Copy"; },1200); }
+        if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(text).then(ok, fb); } else fb();
+        function fb(){ var ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select();
+          try{ document.execCommand("copy"); ok(); }catch(e){} document.body.removeChild(ta); }
+      });
+      box.appendChild(card);
+    });
+
+    var ref=[
+     ["TAG","POS=n TYPE=tag ATTR=spec | XPATH=expr [CONTENT=… | EXTRACT=…]",true],
+     ["EXTRACT (via TAG)","EXTRACT=TXT|TXTALL|HTM|HREF|TITLE|ALT|CHECKED",true],
+     ["URL","GOTO=address",true],
+     ["BACK / REFRESH","BACK | REFRESH",true],
+     ["TAB","T=n | OPEN | CLOSE | CLOSEALLOTHERS",true],
+     ["FRAME","F=number | NAME=framename",true],
+     ["WAIT","SECONDS=n",true],
+     ["PROMPT","text [{!VARn|var} [default]]",true],
+     ["SET","{!builtin|!VARn|var} value",true],
+     ["ADD","{!VARn|!EXTRACT|var} value",true],
+     ["CMDLINE","{!TIMEOUT|!LOOP|!DATASOURCE|!VARn|var} value",true],
+     ["SEARCH","SOURCE=TXT|REGEXP:pattern [EXTRACT=template]",true],
+     ["EVAL (in SET/CONTENT)",'EVAL("javascript;")',true],
+     ["STOPWATCH","[START|STOP] ID=name | LABEL=name",true],
+     ["PAUSE","PAUSE",true],
+     ["ONERRORDIALOG / ONSCRIPTERROR","[CONTINUE=yes|no]",true],
+     ["VERSION","[BUILD=x] [RECORDER=x]",true],
+     ["SAVEAS","TYPE=MHT|HTM|TXT|EXTRACT|PNG|JPEG FOLDER=… FILE=…",false],
+     ["SCREENSHOT","TYPE=PAGE FOLDER=… FILE=…",false],
+     ["CLEAR","[domain|url] (cookies)",false],
+     ["PROXY","ADDRESS=host:port [BYPASS=list]",false],
+     ["ONLOGIN","USER=… PASSWORD=… (HTTP auth)",false],
+     ["IMAGESEARCH","POS=n IMAGE=path CONFIDENCE=n (Windows + host)",false]
+    ];
+    var tb=document.querySelector("#imacrosRef tbody");
+    ref.forEach(function(r){
+      var tr=document.createElement("tr");
+      var a=document.createElement("td"); a.textContent=r[0]; a.style.fontWeight="700";
+      var b=document.createElement("td"); b.textContent=r[1];
+      b.style.cssText="font-family:ui-monospace,Consolas,monospace;font-size:12px;color:var(--muted)";
+      var c=document.createElement("td"); c.textContent=r[2]?"yes":"needs host/net";
+      c.style.cssText="font-weight:700;color:"+(r[2]?"var(--success)":"var(--danger)");
+      tr.appendChild(a); tr.appendChild(b); tr.appendChild(c); tb.appendChild(tr);
+    });
+  })();
+  </script>
+
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div class="modal">
+      <h2>Modal Window</h2>
+      <p class="section-note">This modal is for z-index and click interaction testing.</p>
+      <label for="modalInput">Modal input</label>
+      <input id="modalInput" placeholder="Type inside modal" />
+      <div class="btn-row">
+        <button onclick="logAction('Modal confirmed'); closeModal()">Confirm</button>
+        <button class="secondary" onclick="closeModal()">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script>
+    let clickCount = 0;
+    let inputCount = 0;
+    let domCount = 0;
+    let progressTimer = null;
+
+    document.addEventListener('click', () => {
+      clickCount++;
+      document.getElementById('clickCount').textContent = clickCount;
+    });
+
+    document.addEventListener('input', () => {
+      inputCount++;
+      document.getElementById('inputCount').textContent = inputCount;
+    });
+
+    window.addEventListener('scroll', () => {
+      document.getElementById('scrollY').textContent = Math.round(window.scrollY);
+    });
+
+    function logAction(text) {
+      const stamp = new Date().toLocaleTimeString();
+      document.getElementById('buttonOutput').textContent = `[${stamp}] ${text}`;
+      const recordLog = document.getElementById('recordLog');
+      recordLog.value += `[${stamp}] ${text}\n`;
+      showToast(text);
+    }
+
+    function submitDemoForm() {
+      const data = {
+        fullName: document.getElementById('fullName').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        service: document.getElementById('service').value,
+        budget: document.getElementById('budget').value,
+        urgent: document.getElementById('urgent').checked,
+        message: document.getElementById('message').value
+      };
+      document.getElementById('formOutput').textContent = JSON.stringify(data, null, 2);
+      showToast('Form submitted on test page');
+    }
+
+    function fillSampleData() {
+      document.getElementById('fullName').value = 'Rahul Nayyar';
+      document.getElementById('email').value = 'rahul@example.com';
+      document.getElementById('phone').value = '+61 400 000 000';
+      document.getElementById('service').value = 'Chrome Extension Development';
+      document.getElementById('budget').value = '250';
+      document.getElementById('urgent').checked = true;
+      document.getElementById('message').value = 'Hi, I can help build and test this Chrome extension.';
+      document.querySelectorAll('input, textarea, select').forEach(el => el.dispatchEvent(new Event('input', { bubbles: true })));
+      showToast('Sample data filled');
+    }
+
+    function clearForm() {
+      document.querySelectorAll('#forms input, #forms textarea, #forms select').forEach(el => {
+        if (el.type === 'checkbox') el.checked = false;
+        else el.value = '';
+      });
+      document.getElementById('formOutput').textContent = 'Form cleared.';
+    }
+
+    function delayedResult() {
+      document.getElementById('buttonOutput').textContent = 'Waiting 2 seconds...';
+      setTimeout(() => {
+        document.getElementById('buttonOutput').textContent = 'Delayed action completed.';
+        showToast('Delayed action completed');
+      }, 2000);
+    }
+
+    function showTab(id) {
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      logAction('Tab opened: ' + id);
+    }
+
+    function runProgress() {
+      stopProgress();
+      let width = 0;
+      const bar = document.getElementById('progressBar');
+      progressTimer = setInterval(() => {
+        width += 5;
+        bar.style.width = width + '%';
+        if (width >= 100) {
+          stopProgress();
+          showToast('Macro play completed');
+        }
+      }, 120);
+    }
+
+    function stopProgress() {
+      if (progressTimer) clearInterval(progressTimer);
+      progressTimer = null;
+    }
+
+    function loopProgress() {
+      let loops = 0;
+      function next() {
+        loops++;
+        document.getElementById('progressBar').style.width = '0%';
+        runProgress();
+        setTimeout(() => {
+          stopProgress();
+          if (loops < 3) next();
+          else showToast('Loop x3 completed');
+        }, 2600);
+      }
+      next();
+    }
+
+    function addDynamicElement() {
+      domCount++;
+      document.getElementById('domCount').textContent = domCount;
+      const btn = document.createElement('button');
+      btn.textContent = 'Dynamic Button #' + domCount;
+      btn.onclick = () => logAction('Dynamic button #' + domCount + ' clicked');
+      document.getElementById('dynamicArea').appendChild(btn);
+      document.getElementById('dynamicArea').appendChild(document.createTextNode(' '));
+    }
+
+    function addDynamicInput() {
+      domCount++;
+      document.getElementById('domCount').textContent = domCount;
+      const input = document.createElement('input');
+      input.placeholder = 'Dynamic input #' + domCount;
+      input.style.marginTop = '10px';
+      document.getElementById('dynamicArea').appendChild(input);
+    }
+
+    function fakeContactSubmit() {
+      const output = {
+        name: document.getElementById('supportName').value,
+        email: document.getElementById('supportEmail').value,
+        message: document.getElementById('supportMsg').value,
+        pageUrl: location.href,
+        userAgent: navigator.userAgent
+      };
+      document.getElementById('contactOutput').textContent = JSON.stringify(output, null, 2);
+      showToast('Test contact message captured locally');
+    }
+
+    function openModal() {
+      document.getElementById('modalBackdrop').style.display = 'grid';
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').style.display = 'none';
+    }
+
+    function showToast(text) {
+      const toast = document.getElementById('toast');
+      toast.textContent = text;
+      toast.style.display = 'block';
+      clearTimeout(window.__toastTimer);
+      window.__toastTimer = setTimeout(() => {
+        toast.style.display = 'none';
+      }, 2200);
+    }
+
+    // Extra test data for content-script extraction
+    window.__EXTENSION_TEST_DATA__ = {
+      pageType: 'chrome-extension-test-page',
+      version: '1.0.0',
+      recommendedTests: ['fill forms', 'click buttons', 'open modal', 'add dynamic elements', 'scroll page', 'test iframe']
+    };
+  </script>
+</body>
+</html>

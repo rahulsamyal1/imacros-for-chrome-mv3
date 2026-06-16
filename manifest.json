@@ -28,6 +28,7 @@
       "run_at": "document_idle"
    }, {
       "all_frames": true,
+      "match_about_blank": true,
       "js": [ "utils.js", "content_scripts/connector.js", "content_scripts/recorder.js", "content_scripts/player.js" ],
       "matches": [ "http://*/*", "https://*/*", "file:///*" ],
       "run_at": "document_idle"
