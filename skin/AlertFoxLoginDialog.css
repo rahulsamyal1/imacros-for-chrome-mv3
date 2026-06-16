@@ -1,0 +1,69 @@
+/*
+(c) Copyright 2009 iOpus Software GmbH - http://www.iopus.com
+Theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+*/
+
+td,label,span,a {
+    font-family: var(--sans);
+    font-size: 0.9em;
+    color: var(--ink);
+}
+
+#check-credentials-button {
+    height: 80%;
+}
+
+#check-credentials-button[waiting='true'] {
+    padding-left: 25px;
+    color: var(--ink-faint);
+    cursor: default;
+    background-image: url('waiting_16x16.gif');
+    background-repeat: no-repeat;
+    background-position: 3px;
+}
+
+#check-credentials-button[checked='true'] {
+    padding-left: 25px;
+    background-image: url('ok.png');
+    background-repeat: no-repeat;
+    background-position: 3px;
+}
+
+#message-container {
+    padding: 15px;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+}
+
+#message {
+    font-weight: bold;
+    color: var(--amber);
+}
+
+#save-credentials-checkbox-container {
+    margin-top: 7px;
+    margin-bottom: 15px;
+}
+
+#save-credentials-checkbox-container label {
+    color: var(--ink-soft);
+}
+
+/* fine-print note next to the Sign Up link */
+#sign-up-link + span {
+    color: var(--ink-soft);
+}
+
+#ok-button {
+    background-image: url("ok.png");
+}
+
+#cancel-button {
+    background-image: url("cancel.png");
+}
+
+#buttons {
+    margin-top: 15px;
+}

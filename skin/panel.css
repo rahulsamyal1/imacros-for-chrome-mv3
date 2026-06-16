@@ -1,0 +1,220 @@
+/*
+(c) Copyright 2009 iOpus Software GmbH - http://www.iopus.com
+Panel theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+*/
+
+html, body {
+    height: 100%;       /* fill the injected panel iframe */
+    margin: 0;
+    padding: 0;
+}
+
+#mole {
+    margin: 0;
+    padding: 10px;
+    height: 100%;
+    overflow-y: auto;
+    box-sizing: border-box;
+}
+
+/* ---- Files / Bookmarks switcher ---- */
+#tree-switcher-box {
+    font-family: var(--sans);
+    font-size: 11px;
+    width: 100%;
+    margin: 0 0 -1px 2px;
+    gap: 4px;
+}
+
+#tree-switcher-box > .tab { display: none; }
+
+#tree-switcher-box .tab-label {
+    color: var(--ink-soft);
+    background: var(--surface);
+    cursor: pointer;
+    display: block;
+    width: 50%;
+    padding: 6px 0;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    margin-left: -1px;
+}
+
+#radio-bookmarks-tree:checked ~ #radio-bookmarks-tree-label,
+#radio-files-tree:checked ~ #radio-files-tree-label {
+    background: var(--surface-2);
+    color: var(--amber-bright);
+}
+
+/* ---- Tree / macro frames ---- */
+#view, #tree-view, #macro-view {
+    margin: 0;
+    padding: 0;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+}
+
+#tree-iframe, #macro-iframe {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 140px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg);
+    box-sizing: border-box;
+}
+
+/* ---- Loop inputs ---- */
+#loop-box {
+    padding-top: 10px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-soft);
+}
+.loop-value {
+    width: 44px;
+    font-size: 12px;
+    padding: 5px 6px;
+    margin: 0 4px;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 7px;
+}
+
+/* ---- Logo / links footer ---- */
+#logo-or-info { min-width: 100px; }
+#logo-and-links { padding-bottom: 5px; }
+.panel-link-div { margin: 3px; }
+.panel-link { margin-left: 10px; padding: 3px; }
+#links { font-family: var(--sans); font-size: 12px; }
+
+/* ---- Info / status area ---- */
+#info-div {
+    box-sizing: border-box;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+    margin: 6px 2px;
+}
+#info-area {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 100px;
+    -webkit-box-flex: 1;
+    box-flex: 1;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--good);
+    border-radius: var(--radius);
+    font-family: var(--sans);
+    font-size: 13px;
+    line-height: 1.45;
+    padding: 10px;
+    margin: 5px 0;
+    resize: none;
+}
+#info-area[type="error"] { border-left-color: var(--bad); }
+
+#info-buttons-container {
+    border: 1px solid var(--line);
+    border-top: none;
+    border-radius: 0 0 var(--radius) var(--radius);
+    padding: 4px 0;
+}
+.info-buttons {
+    width: 30px; height: 26px;
+    border: none;
+    margin: 0 5px;
+    background: transparent;
+    color: var(--ink-soft);
+    border-radius: 7px;
+    cursor: pointer;
+    background-image: none !important;   /* replace dark PNGs with glyphs */
+}
+.info-buttons:hover { background: rgba(255,255,255,0.06); color: var(--amber-bright); }
+#info-edit-button::after  { content: "\270E"; font-size: 14px; }   /* pencil */
+#info-help-button::after  { content: "?";    font-size: 14px; font-weight: 700; }
+#info-close-button::after { content: "\2715"; font-size: 13px; }   /* x */
+
+/* ---- Play / Record / Manage tabs ---- */
+#tabs-container { margin: 10px 0; width: 100%; }
+#tabs-container .tab-label {
+    color: var(--ink-soft);
+    background: var(--surface);
+    cursor: pointer;
+    display: block;
+    width: 33%;
+    padding: 7px 0;
+    text-align: center;
+    border: 1px solid var(--line);
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
+    margin-right: 2px;
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 600;
+}
+#tabs-container .tab { display: none; }
+
+#play-tab:checked ~ div #play-tab-label,
+#record-tab:checked ~ div #record-tab-label,
+#manage-tab:checked ~ div #manage-tab-label {
+    background: var(--surface-2);
+    color: var(--amber-bright);
+}
+
+#tabs-content {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 0 var(--radius) var(--radius) var(--radius);
+    padding: 10px;
+    min-height: 200px;
+}
+#tabs-content > div { display: none; }
+#play-tab:checked ~ #tabs-content #play-tab-content,
+#record-tab:checked ~ #tabs-content #record-tab-content,
+#manage-tab:checked ~ #tabs-content #manage-tab-content {
+    position: static;
+    left: 0;
+    display: block;
+}
+
+/* ---- AlertFox card ---- */
+#alertfox-container {
+    border: 1px solid var(--line);
+    background: var(--bg-2);
+    border-radius: var(--radius);
+    padding: 12px 10px 10px;
+    margin-top: 22px;
+}
+#alertfox-caption {
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--amber);
+    margin: -22px 0 8px 10px;
+    background: var(--bg-2);
+    display: inline-block;
+    padding: 0 6px;
+}
+#idrone-checkbox-container {
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-soft);
+    margin: 0 0 6px 6px;
+}
+
+.af-button[waiting='true'] {
+    color: var(--ink-faint);
+    cursor: default;
+    padding-left: 26px;
+    background-image: url('waiting_16x16.gif');
+    background-repeat: no-repeat;
+    background-position: 8px center;
+}

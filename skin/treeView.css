@@ -1,0 +1,97 @@
+@import "design-system.css";
+/*
+(c) Copyright 2009 iOpus Software GmbH - http://www.iopus.com
+Tree theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+*/
+
+#loading_message {
+    margin: 12px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-soft);
+}
+
+body[treetype="bookmarks"],
+body[treetype="files"] {
+    padding: 6px;
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+}
+
+a {
+    color: var(--ink);
+    text-decoration: none;
+}
+a:hover, a:active { color: var(--amber-bright); }
+
+/* selection — amber highlight with dark text */
+span[selected="true"],
+a[selected="true"] {
+    color: var(--ink-on-amber) !important;
+    background: var(--amber) !important;
+    border-radius: 5px;
+    padding: 1px 4px;
+}
+
+span[dragging_over="true"],
+a[dragging_over="true"] { border-bottom: 2px solid var(--amber); }
+
+/* Turn off list bullets */
+ul.tree li { list-style: none; }
+ul.tree, ul.tree ul, ul.tree li { margin-left: 5px; padding: 0; }
+ul.tree li .bullet { padding-left: 20px; }
+
+/* dark PNG glyphs -> light silhouettes that read on the dark surface */
+ul.tree li .bullet,
+.parentFolder, .MyComputer, .Disk {
+    filter: brightness(0) invert(0.72);
+}
+
+ul.tree li.folderOpen .bullet   { cursor: pointer; background: url("folderOpen.png") center left no-repeat; }
+ul.tree li.folderClosed .bullet { cursor: pointer; background: url("folderClosed.png") center left no-repeat; }
+ul.tree li.macro .bullet        { cursor: default; background: url("imglog.png") center left no-repeat; }
+
+ul.tree li.folderOpen   ul { display: block; }
+ul.tree li.folderClosed ul { display: none; }
+
+ul.tree {
+    font-family: var(--sans);
+    font-size: 12px;
+    height: 95%;
+    width: 100%;
+    margin: 0;
+    white-space: nowrap;
+    color: var(--ink);
+}
+
+.parentFolder { padding-left: 20px; cursor: pointer; background: url("folder-up.png") center left no-repeat; }
+.MyComputer   { padding-left: 20px; background: url("mycomputer.png") center left no-repeat; }
+.Disk         { padding-left: 40px; cursor: pointer; background: url("disk.png") center left no-repeat; }
+
+/* Context menu */
+#context-menu {
+    font-family: var(--sans);
+    font-size: 12px;
+    border: 1px solid var(--line);
+    background: var(--surface-2);
+    color: var(--ink);
+    border-radius: 10px;
+    box-shadow: var(--shadow-card);
+    display: none;
+    position: absolute;
+    overflow: hidden;
+}
+.context-menu-ul { margin: 0; padding: 6px; list-style-type: none; }
+.context-menu-ul > li { margin: 0; padding: 7px 12px; border-radius: 7px; cursor: pointer; }
+.context-menu-item:hover { cursor: pointer; background: var(--amber); color: var(--ink-on-amber); text-decoration: none; }
+.context-menu-sep { border-top: 1px solid var(--line); margin: 5px 4px; padding: 0; height: 0; list-style-type: none; }
+
+#no-file-io-message {
+    text-align: left;
+    padding: 10px;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--ink-soft);
+    line-height: 1.5;
+}

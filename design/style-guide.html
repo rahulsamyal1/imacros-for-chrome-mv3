@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RahulGPT Design System</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <style>
+    body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    .page { max-width: 920px; margin: 0 auto; padding: 32px 24px 80px; }
+    h1 { font-family: var(--serif); font-weight: 700; font-size: 30px; margin: 0 0 4px; }
+    .sub { color: var(--ink-faint); margin: 0 0 32px; }
+    h2 { font-size: 14px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--ink-faint); margin: 40px 0 14px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .stack { display: flex; flex-direction: column; gap: 10px; max-width: 360px; }
+    .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 12px; }
+    .sw { border: 1px solid var(--line); border-radius: 10px; overflow: hidden; font-size: 11px; }
+    .sw .chip { height: 56px; }
+    .sw .meta { padding: 7px 9px; background: var(--surface); }
+    .sw .name { color: var(--ink); }
+    .sw .hex { color: var(--ink-faint); font-family: ui-monospace, monospace; }
+    .icons { display: grid; grid-template-columns: repeat(auto-fill, minmax(54px, 1fr)); gap: 8px; }
+    .icons span { display: grid; place-items: center; height: 46px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; font-size: 22px; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; max-width: 300px; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="row" style="gap:10px; margin-bottom:6px;">
+      <span class="ds-mark">RG</span>
+      <h1 style="margin:0;">RahulGPT</h1>
+    </div>
+    <p class="sub">Warm amber on espresso. Tokens and components live in <code>design-system.css</code>.</p>
+
+    <h2>Colour</h2>
+    <div class="swatches">
+      <div class="sw"><div class="chip" style="background:#14110d"></div><div class="meta"><div class="name">bg</div><div class="hex">#14110d</div></div></div>
+      <div class="sw"><div class="chip" style="background:#1d1813"></div><div class="meta"><div class="name">bg-2</div><div class="hex">#1d1813</div></div></div>
+      <div class="sw"><div class="chip" style="background:#241e17"></div><div class="meta"><div class="name">surface</div><div class="hex">#241e17</div></div></div>
+      <div class="sw"><div class="chip" style="background:#2c251c"></div><div class="meta"><div class="name">surface-2</div><div class="hex">#2c251c</div></div></div>
+      <div class="sw"><div class="chip" style="background:#3a3025"></div><div class="meta"><div class="name">line</div><div class="hex">#3a3025</div></div></div>
+      <div class="sw"><div class="chip" style="background:#f3ead9"></div><div class="meta"><div class="name">ink</div><div class="hex">#f3ead9</div></div></div>
+      <div class="sw"><div class="chip" style="background:#b8aa92"></div><div class="meta"><div class="name">ink-soft</div><div class="hex">#b8aa92</div></div></div>
+      <div class="sw"><div class="chip" style="background:#80735f"></div><div class="meta"><div class="name">ink-faint</div><div class="hex">#80735f</div></div></div>
+      <div class="sw"><div class="chip" style="background:#e8a33d"></div><div class="meta"><div class="name">amber</div><div class="hex">#e8a33d</div></div></div>
+      <div class="sw"><div class="chip" style="background:#ffc25c"></div><div class="meta"><div class="name">amber-bright</div><div class="hex">#ffc25c</div></div></div>
+      <div class="sw"><div class="chip" style="background:#b9772a"></div><div class="meta"><div class="name">amber-deep</div><div class="hex">#b9772a</div></div></div>
+      <div class="sw"><div class="chip" style="background:linear-gradient(135deg,#ffc25c,#b9772a)"></div><div class="meta"><div class="name">grad-amber</div><div class="hex">buttons</div></div></div>
+      <div class="sw"><div class="chip" style="background:#7fc99a"></div><div class="meta"><div class="name">good</div><div class="hex">#7fc99a</div></div></div>
+      <div class="sw"><div class="chip" style="background:#e0795f"></div><div class="meta"><div class="name">bad</div><div class="hex">#e0795f</div></div></div>
+    </div>
+
+    <h2>Buttons</h2>
+    <div class="row">
+      <button class="ds-btn">Smart Offer</button>
+      <button class="ds-btn ghost">Ghost</button>
+      <button class="ds-btn is-ok">Copied &#10003;</button>
+      <button class="ds-btn is-err">Failed</button>
+      <button class="ds-btn" disabled>Disabled</button>
+    </div>
+    <div style="max-width:360px; margin-top:12px;">
+      <button class="ds-btn cta">&#10022; Capture &amp; Write Offer</button>
+    </div>
+
+    <h2>Floating panel (content script)</h2>
+    <div class="ds-card" style="max-width:300px;">
+      <div class="ds-card__head">
+        <div class="ds-card__title"><span class="ds-dot"></span>RahulGPT</div>
+        <button class="ds-iconbtn" aria-label="Minimise">-</button>
+      </div>
+      <div class="ds-card__body">
+        <div class="grid2">
+          <button class="ds-btn">Smart Offer</button>
+          <button class="ds-btn">Ask Questions</button>
+        </div>
+        <div class="grid2">
+          <button class="ds-btn">Short Offer</button>
+          <button class="ds-btn">Emoji Version</button>
+        </div>
+        <div class="ds-status ok"><span>Copied &#10003;. Paste with Ctrl+V.</span></div>
+      </div>
+    </div>
+    <div style="margin-top:12px;"><button class="ds-pill"><span class="ds-dot"></span>RahulGPT</button></div>
+
+    <h2>Inputs, tabs, checkbox</h2>
+    <div class="stack">
+      <div class="ds-tabs">
+        <button class="ds-tab active">Setup</button>
+        <button class="ds-tab">Profile</button>
+        <button class="ds-tab">Offer</button>
+      </div>
+      <label class="ds-label">Your offer</label>
+      <textarea class="ds-input" rows="3">Hi Sahar, I can help with your booking website.</textarea>
+      <label class="ds-checkbox"><input type="checkbox" checked /><span>End each offer with a relevant question</span></label>
+      <div class="ds-status"><span class="ds-spinner"></span><span>Writing your offer...</span></div>
+    </div>
+
+    <h2>Icons</h2>
+    <div class="icons">
+      <span>&#10022;</span><span>&#9733;</span><span>&#10003;</span>
+      <span>&#10024;</span><span>&#127873;</span><span>&#11088;</span><span>&#128176;</span><span>&#10067;</span>
+      <span>&#9889;</span><span>&#128142;</span><span>&#9986;</span><span>&#128444;</span><span>&#128153;</span>
+      <span>&#128276;</span><span>&#129309;</span><span>&#128184;</span><span>&#128591;</span>
+      <span>&#127760;</span><span>&#128221;</span><span>&#128241;</span><span>&#128295;</span><span>&#9881;</span>
+    </div>
+  </div>
+</body>
+</html>

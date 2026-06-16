@@ -1,0 +1,50 @@
+/*
+(c) Copyright 2009 iOpus Software GmbH - http://www.iopus.com
+Theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+Directory browser. Layout (sizes/positions) is preserved; only the look
+is themed. The embedded tree iframe is themed separately by treeView.css.
+*/
+
+#container {
+    box-sizing: border-box;
+    height: 100vh;
+    padding: 12px;
+    background: var(--grad-surface);
+    color: var(--ink);
+    font-family: var(--sans);
+}
+
+#tree-view {
+    width: 100%;
+    height: 80%;
+    box-sizing: border-box;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+#tree-iframe {
+    width: 100%;
+    height: 90%;
+    border: none;
+    background: transparent;
+    color-scheme: dark;
+}
+
+/* icon buttons: keep the PNG glyph, but pad text clear of it and
+   ensure the icon sits over the themed amber button background */
+#button-ok,
+#button-cancel {
+    padding-left: 34px;
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+#button-ok {
+    background-image: url("ok.png"), var(--grad-amber);
+}
+
+#button-cancel {
+    background-image: url("cancel.png"), var(--grad-amber);
+}

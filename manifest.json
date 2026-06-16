@@ -1,0 +1,71 @@
+{
+   "manifest_version": 3,
+   "name": "iMacros for Chrome",
+   "version": "8.0.7",
+   "description": "Automate your web browser. Record and replay repetitious work. MV3 rebuild by Rahul Simi; original by iOpus Software GmbH.",
+   "homepage_url": "https://www.imacros.net",
+   "minimum_chrome_version": "116",
+   "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDIQD99cTZgDNx/kTUq0e8DGO22FdPWT1DfADezOKLkJLsYZbYLuUiitZgeE1gRDA7mNedBryk2sxMNIv5yHgOWIe4Q8bEql7d+CDPEAUT0GTDIhFWvUxVDnDTGnZdy9Tam0e+xD8mEOr9/YQ9NsMUQbm3gxo42bxbiaWgAnGX2BQIDAQAB",
+   "background": {
+      "service_worker": "bg.js"
+   },
+   "action": {
+      "default_icon": {
+         "19": "skin/logo19.png",
+         "38": "skin/logo38.png"
+      },
+      "default_title": "iMacros for Chrome"
+   },
+   "icons": {
+      "16": "skin/logo16.png",
+      "48": "skin/logo48.png",
+      "128": "skin/logo128.png"
+   },
+   "content_scripts": [ {
+      "all_frames": false,
+      "js": [ "content_scripts/bookmarks_handler.js", "content_scripts/si_listener.js" ],
+      "matches": [ "http://*/*", "https://*/*", "file:///*" ],
+      "run_at": "document_idle"
+   }, {
+      "all_frames": true,
+      "js": [ "utils.js", "content_scripts/connector.js", "content_scripts/recorder.js", "content_scripts/player.js" ],
+      "matches": [ "http://*/*", "https://*/*", "file:///*" ],
+      "run_at": "document_idle"
+   } ],
+   "options_page": "options.html",
+   "permissions": [
+      "tabs",
+      "bookmarks",
+      "management",
+      "proxy",
+      "cookies",
+      "pageCapture",
+      "webNavigation",
+      "notifications",
+      "webRequest",
+      "webRequestAuthProvider",
+      "nativeMessaging",
+      "storage",
+      "scripting",
+      "offscreen"
+   ],
+   "host_permissions": [ "http://*/*", "https://*/*", "file:///*" ],
+   "content_security_policy": {
+      "extension_pages": "script-src 'self'; object-src 'self'",
+      "sandbox": "sandbox allow-scripts; script-src 'self' 'unsafe-eval'; object-src 'self'"
+   },
+   "sandbox": {
+      "pages": [ "sandbox.html" ]
+   },
+   "web_accessible_resources": [ {
+      "resources": [
+         "skin/logo24.png",
+         "panel.html",
+         "fileView.html",
+         "folderView.html",
+         "treeView.html",
+         "macroView.html"
+      ],
+      "matches": [ "<all_urls>" ]
+   } ]
+}

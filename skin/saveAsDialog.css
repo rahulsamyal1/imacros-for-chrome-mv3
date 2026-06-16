@@ -1,0 +1,69 @@
+/*
+(c) Copyright 2011 iOpus Software GmbH - http://www.iopus.com
+Theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+*/
+
+/* styles for saveAs dialog */
+
+body {
+    margin: 0px;
+    padding: 0px;
+    font-family: var(--sans);
+    font-size: 13px;
+    min-width: 250px;
+    background: var(--bg);
+    color: var(--ink);
+}
+
+
+#main-container {
+    margin: 0px;
+    padding: 15px;
+    -webkit-box-sizing: border-box;
+    background: var(--bg-2);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+/* section captions ("Enter new macro name:", "Macro Storage:") */
+#main-container > .box > span,
+#tree-switcher-box > .box > span {
+    font-weight: 700;
+    color: var(--ink);
+}
+
+#macro-name {
+    margin: 10px;
+    min-width: 80%;
+    display: -webkit-box;
+}
+
+#buttonpack {
+    -webkit-box-sizing: border-box;
+}
+
+#ok-button {
+    background-image: url("ok.png");
+}
+
+#cancel-button {
+    background-image: url("cancel.png");
+}
+
+#tree-switcher-box {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+
+.tree-switcher {
+    font-size: 13px;
+}
+
+/* radio labels (Files / Bookmarks) */
+#tree-switcher-box label {
+    color: var(--ink-soft);
+    margin-right: 12px;
+    cursor: pointer;
+}

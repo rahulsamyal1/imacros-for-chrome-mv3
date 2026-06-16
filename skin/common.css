@@ -1,0 +1,131 @@
+@import "design-system.css";
+/*
+(c) Copyright 2009 iOpus Software GmbH - http://www.iopus.com
+Theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+Shared styles for all iMacros pages and dialogs. Layout uses the original
+-webkit-box model (still supported) so nothing reflows; only the look changes.
+*/
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--grad-surface);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 13px;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* ---- action buttons (the .button divs used across the UI) ---- */
+.button {
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-align: center;
+    box-sizing: border-box;
+    min-height: 34px;
+    margin: 6px 7px;
+    padding: 8px 12px;
+    font-family: var(--sans);
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--ink-on-amber);
+    background: var(--grad-amber);
+    border: none;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-btn);
+    cursor: pointer;
+    white-space: nowrap;
+    user-select: none;
+    transition: transform .08s ease, filter .15s ease;
+}
+
+.button > span { line-height: 1; }
+
+.button:hover  { filter: brightness(1.06); text-decoration: none; }
+.button:active { transform: translateY(1px); }
+
+.button[collapsed="true"] { display: none; }
+
+.button[disabled="true"],
+.button[disabled="true"]:hover {
+    background: var(--surface-2);
+    color: var(--ink-faint);
+    box-shadow: none;
+    cursor: default;
+    filter: none;
+    transform: none;
+}
+
+/* Cancel / dismiss buttons read as quiet "ghost" buttons */
+#cancel-button.button,
+.button.ghost {
+    background: transparent;
+    color: var(--ink);
+    border: 1px solid var(--line);
+    box-shadow: none;
+}
+#cancel-button.button:hover,
+.button.ghost:hover { background: rgba(255,255,255,0.06); filter: none; }
+
+/* icon-only buttons keep their background image, just themed chrome */
+.icon-button {
+    background-repeat: no-repeat;
+    background-position: 10px center;
+}
+
+/* ---- legacy box model (kept as-is; still supported by Chrome) ---- */
+.box  { display: -webkit-box; }
+.vbox { display: -webkit-box; -webkit-box-orient: vertical; }
+.hbox { display: -webkit-box; -webkit-box-orient: horizontal; }
+.centered { -webkit-box-pack: center; -webkit-box-align: center; }
+.box[hidden="true"], .vbox[hidden="true"], .hbox[hidden="true"] { display: none; }
+
+/* ---- links ---- */
+.a-link { color: var(--amber); cursor: pointer; }
+.a-link:hover { color: var(--amber-bright); text-decoration: underline; }
+a       { color: var(--amber); text-decoration: none; }
+a:hover { color: var(--amber-bright); }
+
+/* ---- form fields ---- */
+input[type="text"],
+input[type="password"],
+input[type="number"],
+textarea,
+select {
+    width: auto;
+    color: var(--ink);
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 9px 10px;
+    font-family: var(--sans);
+    font-size: 13px;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color .15s, box-shadow .15s;
+}
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    border-color: var(--amber);
+    box-shadow: var(--ring-focus);
+}
+input[type="checkbox"], input[type="radio"] { accent-color: var(--amber); }
+
+/* ---- section headers / captions ---- */
+.header {
+    display: block;
+    font-weight: 800;
+    font-size: 14px;
+    letter-spacing: .2px;
+    color: var(--ink);
+    margin-bottom: 6px;
+}
+
+/* ---- scrollbars ---- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--line); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--surface-2); }

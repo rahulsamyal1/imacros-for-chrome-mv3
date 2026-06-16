@@ -1,0 +1,45 @@
+/*
+(c) Copyright 2009 iOpus Software GmbH - http://www.iopus.com
+Theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+*/
+
+/* styles for editor dialog */
+
+body {
+    margin: 0px !important;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--sans);
+}
+
+#editbox {
+    width: 100%;
+    height: 95%;
+    padding: 0px !important;
+    margin: 0px !important;
+    border: 0px;
+}
+
+#buttonpack {
+    position: absolute;
+    bottom: 5px;
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    width: 99%;
+    padding: 4px 0;
+    background: var(--bg-2);
+    border-top: 1px solid var(--line);
+    border-radius: var(--radius);
+}
+
+#save-button {
+    background-image: url("save.png");
+}
+
+#saveas-button {
+    background-image: url("saveas.png");
+}
+
+#cancel-button {
+    background-image: url("cancel.png");
+}

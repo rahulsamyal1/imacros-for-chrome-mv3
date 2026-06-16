@@ -1,0 +1,89 @@
+/*
+(c) Copyright 2012 iOpus Software GmbH - http://www.iopus.com
+Theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+*/
+
+/* Turn off list bullets */
+
+body {
+    margin: 0px;
+}
+
+#lines {
+    margin: 0px;
+    margin-top: 18px;
+    padding: 0px;
+    font-size: 0.9em;
+    border-collapse: collapse;
+    color: var(--ink);
+}
+
+#status {
+    white-space: nowrap;
+    margin: 0px;
+    margin-bottom: 2px;
+    padding: 2px;
+    padding-left: 7px;
+    font-size: 11px;
+    font-family: monospace;
+    color: var(--ink);
+}
+
+#status-div {
+    width: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    background-color: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+}
+
+#status-div[type="info"] {
+    background-color: rgba(127, 201, 154, 0.18);
+    border-bottom-color: var(--good);
+}
+
+#status-div[type="info"] #status {
+    color: var(--good);
+}
+
+#status-div[type="warning"] {
+    background-color: rgba(224, 121, 95, 0.18);
+    border-bottom-color: var(--bad);
+}
+
+#status-div[type="warning"] #status {
+    color: var(--bad);
+}
+
+
+td, tr {
+    margin: 0px;
+    padding:0px;
+    border: 0px;
+}
+
+tr[selected="true"] {
+    background-color: rgba(232, 163, 61, 0.18);
+    color: var(--ink);
+}
+
+.macro-line {
+    white-space: nowrap;
+    font-family: monospace;
+    padding-left: 2px;
+    color: var(--ink);
+}
+
+.macro-line[commented="true"] {
+    color: var(--ink-faint);
+}
+
+
+.line-number {
+    font-family: monospace;
+    color: var(--ink-faint);
+    border-right: 1px solid var(--line);
+    padding-right: 2px;
+    text-align: right;
+}

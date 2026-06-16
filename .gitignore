@@ -1,0 +1,12 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Stale MV2 Web Store signature — not needed for source / ignored when unpacked
+_metadata/
+
+# Local backups / scratch
+*_mv2_backup/
+*.bak
+*.tmp

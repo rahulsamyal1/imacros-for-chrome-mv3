@@ -1,0 +1,56 @@
+/*
+(c) Copyright 2009 iOpus Software GmbH - http://www.iopus.com
+Theme (amber-on-espresso) MV3 rebuild (2026) by Rahul Simi.
+*/
+
+/* styles for beforePlay dialog */
+
+#container {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+#buttons {
+    display: -webkit-box;
+    -webkit-box-pack: center;
+    -webkit-box-orient: horizontal;
+}
+
+#message-div {
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    -webkit-border-radius: var(--radius);
+    color: var(--ink);
+    padding: 12px 14px;
+}
+
+#message {
+    padding: 0px;
+    margin: 0px;
+    color: var(--ink);
+}
+
+#checkbox-div {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    margin-left: 30px;
+    padding: 5px;
+    font-size: small !important;
+    font-family: var(--sans);
+    color: var(--ink-soft);
+    vertical-align: middle;
+}
+
+
+#play-button {
+    background-image: url("play.png");
+}
+
+#edit-button {
+    background-image: url("edit.png");
+}
+
+#cancel-button {
+    background-image: url("cancel.png");
+}
