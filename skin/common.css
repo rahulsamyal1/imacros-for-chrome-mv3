@@ -59,7 +59,7 @@ html, body {
 /* Cancel / dismiss buttons read as quiet "ghost" buttons */
 #cancel-button.button,
 .button.ghost {
-    background: transparent;
+    background: transparent !important;
     color: var(--ink);
     border: 1px solid var(--line);
     box-shadow: none;
@@ -67,10 +67,13 @@ html, body {
 #cancel-button.button:hover,
 .button.ghost:hover { background: rgba(255,255,255,0.06); filter: none; }
 
-/* icon-only buttons keep their background image, just themed chrome */
-.icon-button {
-    background-repeat: no-repeat;
-    background-position: 10px center;
+/* Legacy PNG button icons (save.png, ok.png, lock.png, ...) are dropped: the
+   per-button background-image used to override the gold gradient, leaving a
+   dark fill behind dark text. Force the gradient back so buttons are clean
+   gold + readable text. */
+.button.icon-button {
+    background: var(--grad-amber) !important;
+    padding-left: 12px;
 }
 
 /* ---- legacy box model (kept as-is; still supported by Chrome) ---- */

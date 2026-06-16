@@ -27,10 +27,11 @@ chrome.scripting; this guard makes repeated injection a no-op.
 
         var host = document.createElement("div");
         host.id = HOST_ID;
+        var startLeft = Math.max(8, (window.innerWidth || 1200) - DEFAULT_W - 16);
         setImportant(host, {
-            position: "fixed", top: "16px", right: "16px",
+            position: "fixed", top: "16px", left: startLeft + "px",
             width: DEFAULT_W + "px", height: DEFAULT_H + "px",
-            "max-height": "92vh", "z-index": "2147483647",
+            "z-index": "2147483647",
             margin: "0", padding: "0", border: "0",
             "color-scheme": "light"
         });
@@ -53,7 +54,16 @@ chrome.scripting; this guard makes repeated injection a no-op.
             ".bar button{all:unset;cursor:pointer;color:#b8aa92;font-size:16px;line-height:1;" +
             "padding:4px 8px;border-radius:7px;transition:background .15s,color .15s;}" +
             ".bar button:hover{background:rgba(255,255,255,.08);color:#ffc25c;}" +
-            "iframe{flex:1 1 auto;width:100%;border:0;display:block;background:#14110d;}";
+            "iframe{flex:1 1 auto;width:100%;border:0;display:block;background:#14110d;}" +
+            ".rsz{position:absolute;z-index:6;}" +
+            ".rsz-n{top:-3px;left:12px;right:12px;height:8px;cursor:ns-resize;}" +
+            ".rsz-s{bottom:-3px;left:12px;right:12px;height:8px;cursor:ns-resize;}" +
+            ".rsz-e{top:12px;bottom:12px;right:-3px;width:8px;cursor:ew-resize;}" +
+            ".rsz-w{top:12px;bottom:12px;left:-3px;width:8px;cursor:ew-resize;}" +
+            ".rsz-ne{top:-4px;right:-4px;width:16px;height:16px;cursor:nesw-resize;}" +
+            ".rsz-nw{top:-4px;left:-4px;width:16px;height:16px;cursor:nwse-resize;}" +
+            ".rsz-se{bottom:-4px;right:-4px;width:16px;height:16px;cursor:nwse-resize;}" +
+            ".rsz-sw{bottom:-4px;left:-4px;width:16px;height:16px;cursor:nesw-resize;}";
         shadow.appendChild(style);
 
         var wrap = document.createElement("div");
@@ -92,14 +102,16 @@ chrome.scripting; this guard makes repeated injection a no-op.
 
         closeBtn.addEventListener("click", closePanel);
 
-        var collapsed = false;
+        var collapsed = false, expandedH = DEFAULT_H;
         minBtn.addEventListener("click", function() {
+            if (!collapsed) expandedH = host.getBoundingClientRect().height;
             collapsed = !collapsed;
             iframe.style.display = collapsed ? "none" : "block";
-            setImportant(host, {height: collapsed ? "38px" : (DEFAULT_H + "px")});
+            setImportant(host, {height: collapsed ? "38px" : (expandedH + "px")});
         });
 
-        makeDraggable(host, bar);
+        makeDraggable(host, bar, iframe);
+        makeResizable(host, shadow, iframe);
 
         notify("panel-opened");
     }
@@ -119,7 +131,7 @@ chrome.scripting; this guard makes repeated injection a no-op.
         } catch (e) { /* extension context may be gone */ }
     }
 
-    function makeDraggable(el, handle) {
+    function makeDraggable(el, handle, iframe) {
         var sx, sy, ox, oy, dragging = false;
         handle.addEventListener("mousedown", function(e) {
             if (e.button !== 0) return;
@@ -127,8 +139,9 @@ chrome.scripting; this guard makes repeated injection a no-op.
             sx = e.clientX; sy = e.clientY;
             var r = el.getBoundingClientRect();
             ox = r.left; oy = r.top;
-            // switch from right-anchored to left-anchored while dragging
             setImportant(el, {left: ox + "px", top: oy + "px", right: "auto"});
+            // stop the iframe from swallowing mouse events while dragging
+            if (iframe) iframe.style.pointerEvents = "none";
             e.preventDefault();
         });
         window.addEventListener("mousemove", function(e) {
@@ -137,7 +150,56 @@ chrome.scripting; this guard makes repeated injection a no-op.
             var ny = Math.max(0, oy + e.clientY - sy);
             setImportant(el, {left: nx + "px", top: ny + "px"});
         });
-        window.addEventListener("mouseup", function() { dragging = false; });
+        window.addEventListener("mouseup", function() {
+            if (!dragging) return;
+            dragging = false;
+            if (iframe) iframe.style.pointerEvents = "";
+        });
+    }
+
+    // Resize from any edge or corner.
+    function makeResizable(host, shadow, iframe) {
+        var MINW = 260, MINH = 220;
+        var dirs = ["n", "s", "e", "w", "ne", "nw", "se", "sw"];
+        dirs.forEach(function(dir) {
+            var h = document.createElement("div");
+            h.className = "rsz rsz-" + dir;
+            shadow.appendChild(h);   // sibling of .wrap so it isn't clipped
+            h.addEventListener("mousedown", function(e) {
+                if (e.button !== 0) return;
+                e.preventDefault();
+                e.stopPropagation();
+                var r = host.getBoundingClientRect();
+                var sx = e.clientX, sy = e.clientY;
+                var sw = r.width, sh = r.height, sl = r.left, st = r.top;
+                if (iframe) iframe.style.pointerEvents = "none";
+
+                function move(ev) {
+                    var dx = ev.clientX - sx, dy = ev.clientY - sy;
+                    var w = sw, ht = sh, l = sl, t = st;
+                    if (dir.indexOf("e") >= 0) w = sw + dx;
+                    if (dir.indexOf("s") >= 0) ht = sh + dy;
+                    if (dir.indexOf("w") >= 0) w = sw - dx;
+                    if (dir.indexOf("n") >= 0) ht = sh - dy;
+                    w = Math.max(MINW, w);
+                    ht = Math.max(MINH, ht);
+                    if (dir.indexOf("w") >= 0) l = sl + (sw - w);   // keep right edge fixed
+                    if (dir.indexOf("n") >= 0) t = st + (sh - ht);  // keep bottom edge fixed
+                    setImportant(host, {
+                        width: w + "px", height: ht + "px",
+                        left: Math.max(0, l) + "px", top: Math.max(0, t) + "px",
+                        right: "auto"
+                    });
+                }
+                function up() {
+                    window.removeEventListener("mousemove", move);
+                    window.removeEventListener("mouseup", up);
+                    if (iframe) iframe.style.pointerEvents = "";
+                }
+                window.addEventListener("mousemove", move);
+                window.addEventListener("mouseup", up);
+            });
+        });
     }
 
     chrome.runtime.onMessage.addListener(function(msg) {

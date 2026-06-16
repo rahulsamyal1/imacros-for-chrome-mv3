@@ -89,7 +89,8 @@ html, body {
 
 /* ---- Logo / links footer ---- */
 #logo-or-info { min-width: 100px; }
-#logo-and-links { padding-bottom: 5px; }
+/* bottom logo image + Home/Wiki/Forum links removed for a clean footer */
+#logo-and-links { display: none !important; }
 .panel-link-div { margin: 3px; }
 .panel-link { margin-left: 10px; padding: 3px; }
 #links { font-family: var(--sans); font-size: 12px; }
