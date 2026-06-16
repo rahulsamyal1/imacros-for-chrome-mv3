@@ -40,17 +40,19 @@ a[dragging_over="true"] { border-bottom: 2px solid var(--amber); }
 /* Turn off list bullets */
 ul.tree li { list-style: none; }
 ul.tree, ul.tree ul, ul.tree li { margin-left: 5px; padding: 0; }
-ul.tree li .bullet { padding-left: 20px; }
 
-/* dark PNG glyphs -> light silhouettes that read on the dark surface */
-ul.tree li .bullet,
-.parentFolder, .MyComputer, .Disk {
-    filter: brightness(0) invert(0.72);
-}
-
-ul.tree li.folderOpen .bullet   { cursor: pointer; background: url("folderOpen.png") center left no-repeat; }
-ul.tree li.folderClosed .bullet { cursor: pointer; background: url("folderClosed.png") center left no-repeat; }
-ul.tree li.macro .bullet        { cursor: default; background: url("imglog.png") center left no-repeat; }
+/* Each tree item is ONE span holding both the icon and the label text, so we
+   must NOT put a filter on it (that flattened the amber background and the dark
+   text into one gray block on the selected item — hiding the label).
+   Use monochrome glyphs that inherit the text colour instead, so the icon and
+   label stay readable in both the normal and the selected (amber) state. */
+ul.tree li .bullet { padding-left: 0; }
+ul.tree li.folderOpen > .bullet,
+ul.tree li.folderClosed > .bullet { cursor: pointer; }
+ul.tree li.macro > .bullet { cursor: default; }
+ul.tree li.folderOpen > .bullet::before   { content: "\25BE"; margin-right: 7px; }
+ul.tree li.folderClosed > .bullet::before { content: "\25B8"; margin-right: 7px; }
+ul.tree li.macro > .bullet::before         { content: "\2022"; margin-right: 7px; opacity: .8; }
 
 ul.tree li.folderOpen   ul { display: block; }
 ul.tree li.folderClosed ul { display: none; }
